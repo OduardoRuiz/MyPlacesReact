@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import AddPlace from './components/AddPlace';
+import ListPlaces from './components/ListPlaces';
+import { placeReducer } from './reducer';
 
-function App() {
+export const PlaceContext = React.createContext({
+  PlaceCheck: false
+});
+
+export default function App() {
+  const placeRedux = React.useContext(PlaceContext);
+  const [currentPlace, placeDispatch] = React.useReducer(placeReducer, placeRedux);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <PlaceContext.Provider value={{ currentPlace, placeDispatch }} className="App">
+      <AddPlace />
+      <hr></hr>
+      <ListPlaces />
+
+    </PlaceContext.Provider>
   );
 }
-
-export default App;
